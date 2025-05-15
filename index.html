@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruah Kopi - Lebih Dari Sekedar Kopi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+        
+        :root {
+            --primary: #6F4E37;
+            --secondary: #D4A76A;
+            --accent: #E3CAA5;
+            --dark: #3E2723;
+            --light: #FFF8E1;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 90vh;
+        }
+        
+        .title-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .menu-item:hover .menu-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .menu-overlay {
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .coffee-bean {
+            position: absolute;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .coffee-drip {
+            animation: drip 2s infinite alternate;
+        }
+        
+        @keyframes drip {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Tab styles */
+        .menu-tab {
+            transition: all 0.3s ease;
+        }
+
+        .menu-tab.active {
+            background-color: #6F4E37;
+            color: white;
+        }
+
+        .menu-tab:not(.active):hover {
+            background-color: #E3CAA5;
+        }
+
+        .menu-content {
+            display: none;
+        }
+
+        .menu-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md fixed w-full z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <!-- Logo Image -->
+                        <img src="logo.png" alt="Ruah Kopi Logo" class="h-20">
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="text-amber-900 px-3 py-2 rounded-md text-sm font-medium hover:bg-amber-50 transition">Beranda</a>
+                        <a href="#about" class="text-gray-700 hover:text-amber-900 px-3 py-2 rounded-md text-sm font-medium hover:bg-amber-50 transition">Tentang Kami</a>
+                        <a href="#menu" class="text-gray-700 hover:text-amber-900 px-3 py-2 rounded-md text-sm font-medium hover:bg-amber-50 transition">Menu</a>
+                        <a href="#contact" class="text-gray-700 hover:text-amber-900 px-3 py-2 rounded-md text-sm font-medium hover:bg-amber-50 transition">Kontak</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-amber-900 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-900 hover:bg-amber-50">Beranda</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-900 hover:bg-amber-50">Tentang Kami</a>
+                <a href="#menu" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-900 hover:bg-amber-50">Menu</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-900 hover:bg-amber-50">Kontak</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero relative flex items-center justify-center text-center">
+        <div class="absolute top-0 left-0 w-full h-full bg-black/30"></div>
+        <div class="relative z-10 px-4 text-white max-w-4xl">
+            <h1 class="text-4xl md:text-6xl font-bold title-font mb-6">RUAH KOPI</h1>
+            <p class="text-xl md:text-2xl mb-8">Lebih Dari Sekedar Kopi</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#menu" class="bg-amber-900 hover:bg-amber-800 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105">
+                    Lihat Menu
+                </a>
+                <a href="#contact" class="bg-transparent border-2 border-white hover:bg-white/20 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105">
+                    Reservasi
+                </a>
+            </div>
+        </div>
+        
+        <!-- Floating coffee elements -->
+        <div class="coffee-bean top-1/4 left-1/4">
+            <i class="fas fa-coffee text-amber-100 text-6xl floating" style="animation-delay: 0s;"></i>
+        </div>
+        <div class="coffee-bean top-1/3 right-1/4">
+            <i class="fas fa-coffee text-amber-100 text-5xl floating" style="animation-delay: 0.5s;"></i>
+        </div>
+        <div class="coffee-bean bottom-1/4 left-1/3">
+            <i class="fas fa-coffee text-amber-100 text-4xl floating" style="animation-delay: 1s;"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-amber-50 relative overflow-hidden">
+        <div class="coffee-bean top-10 right-10">
+            <i class="fas fa-coffee text-amber-200 text-8xl"></i>
+        </div>
+        <div class="coffee-bean bottom-10 left-10">
+            <i class="fas fa-coffee text-amber-200 text-8xl"></i>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold title-font text-amber-900 mb-4">Tentang Ruah Kopi</h2>
+                <div class="w-24 h-1 bg-amber-700 mx-auto mb-6"></div>
+                <p class="text-lg max-w-3xl mx-auto text-gray-700">
+                    Lebih dari sekadar coffee shop biasa, Ruah Kopi mengusung tema "Rumah Kreativitas Kopi Nusantara," sebuah konsep yang merayakan kekayaan kopi Indonesia dalam balutan suasana yang hangat, ramah, dan memantik gagasan.
+                </p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 relative">
+                    <div class="rounded-lg overflow-hidden shadow-xl">
+                        <img src="ruahkopi.jpg" 
+                             alt="Interior Ruah Kopi" class="w-full h-auto">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-white p-4 shadow-lg rounded-lg hidden md:block">
+                        <div class="flex items-center">
+                            <div class="bg-amber-100 p-3 rounded-full mr-3">
+                                <i class="fas fa-award text-amber-900 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-amber-900">Kopi Terbaik</p>
+                                <p class="text-sm text-gray-600">Yogyakarta 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 mt-10 lg:mt-0">
+                    <h3 class="text-2xl font-bold title-font text-amber-900 mb-6">Keistimewaan Ruah Kopi</h3>
+                    <p class="text-gray-700 mb-6">
+                        Mengawali kisah di jantung kota Yogyakarta, tepatnya di kawasan Malioboro yang selalu berdenyut, Ruah Kopi hadir sejak awal tahun 2025 membawa kehangatan otentik dalam setiap sudutnya. Lebih dari sekadar kedai kopi, Ruah Kopi adalah ruang yang dirancang untuk menjadi rumah kedua bagi para pecinta kopi dan siapa saja yang mencari ketenangan di tengah ramainya kota.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-full bg-amber-100 text-amber-900">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Biji Kopi Pilihan</h4>
+                                <p class="mt-1 text-gray-600">
+                                    Di Ruah Kopi, kami percaya bahwa secangkir kopi yang nikmat berawal dari biji kopi berkualitas tinggi. Kami dengan cermat memilih biji kopi terbaik dari berbagai penjuru Nusantara, termasuk Gayo, Toraja, Kintamani, Wonosobo, dan daerah-daerah lain. Setiap biji memiliki karakter rasa yang unik, yang akan kami hadirkan dalam setiap seduhan manual brew dan espresso.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-full bg-amber-100 text-amber-900">
+                                    <i class="fas fa-mortar-pestle"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Metode Penyeduhan</h4>
+                                <p class="mt-1 text-gray-600">
+                                    Biji-biji kopi ini tidak hanya disajikan dalam bentuk espresso-based klasik, tetapi juga melalui beragam metode seduh manual seperti V60, Aeropress, French Press, dan Chemex.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-full bg-amber-100 text-amber-900">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Barista Berpengalaman</h4>
+                                <p class="mt-1 text-gray-600">
+                                    Di Ruah Kopi, setiap cangkir kopi diracik dengan cinta dan keahlian oleh tim barista kami yang berdedikasi. Mereka bukan hanya sekadar peracik kopi, tetapi juga seniman yang memahami seluk-beluk biji kopi dan memiliki passion untuk menyajikan pengalaman kopi terbaik bagi Anda.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold title-font text-amber-900 mb-4">Menu Kami</h2>
+                <div class="w-24 h-1 bg-amber-700 mx-auto mb-6"></div>
+                <p class="text-lg max-w-3xl mx-auto text-gray-700">
+                    Nikmati berbagai pilihan kopi berkualitas tinggi dari seluruh Nusantara dengan berbagai metode penyeduhan.
+                </p>
+            </div>
+            
+            <!-- Menu Tabs -->
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <button type="button" class="menu-tab active px-6 py-3 text-sm font-medium rounded-l-lg border border-amber-700" data-tab="espresso">
+                        Espresso
+                    </button>
+                    <button type="button" class="menu-tab px-6 py-3 text-sm font-medium border-t border-b border-amber-700" data-tab="manual">
+                        Manual Brew
+                    </button>
+                    <button type="button" class="menu-tab px-6 py-3 text-sm font-medium rounded-r-lg border border-amber-700" data-tab="signature">
+                        Signature
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Espresso Menu Content -->
+            <div id="espresso-content" class="menu-content active">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Espresso Item 1 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="doppio.jpg" 
+                                 alt="Espresso" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Rasakan shot ganda espresso kami yang kaya dan intens, menyajikan esensi kopi pilihan dalam setiap tegukan.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Doppio</h4>
+                            <p class="text-gray-600 mb-4">Choose Your Single origin</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 30.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Espresso Item 2 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="lattemilk.jpg" 
+                                 alt="Americano" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Nikmati kelembutan espresso kami yang berpadu mesra dengan susu kukus yang creamy dan kaya.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Latte Milk</h4>
+                            <p class="text-gray-600 mb-4">Choose Your Single origin</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 27.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Espresso Item 3 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="affogato.jpg" 
+                                 alt="Cappuccino" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Sebuah perpaduan sederhana namun memikat: shot espresso panas yang dituangkan perlahan di atas dinginnya es krim vanilla.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Affogato</h4>
+                            <p class="text-gray-600 mb-4">Choose Your Single origin</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 35.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Espresso Item 4 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="moccacino.jpg" 
+                                 alt="Latte" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Kehangatan cokelat premium berpadu harmonis dengan kekuatan espresso kami, disempurnakan dengan lembutnya susu kukus.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Moccacino</h4>
+                            <p class="text-gray-600 mb-4">Choose Your Single origin</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 28.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Espresso Item 5 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="frappucino.jpg" 
+                                 alt="Flat White" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Segarkan diri Anda dengan perpaduan es, kopi pilihan, dan sentuhan manis yang pas.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Frappucino</h4>
+                            <p class="text-gray-600 mb-4">Choose Your Single origin</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 32.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Espresso Item 6 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="cappucino.jpg" 
+                                 alt="Macchiato" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Espresso klasik yang disiram dengan susu kukus lembut dan diakhiri dengan lapisan busa yang ringan.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Cappuccino</h4>
+                            <p class="text-gray-600 mb-4">Choose Your Single origin</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 25.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Espresso Item 7 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="flatwhite.jpg" 
+                                 alt="Mocha" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Espresso intens dengan lapisan microfoam susu yang sangat tipis dan velvety, menciptakan tekstur halus dan rasa kopi yang lebih dominan.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Flat White</h4>
+                            <p class="text-gray-600 mb-4">Choose Your Single origin</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 27.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Espresso Item 8 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="ristretto.jpg" 
+                                 alt="Affogato" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Shot espresso yang diekstraksi dengan jumlah air yang lebih sedikit. Menghasilkan rasa yang lebih pekat, manis, dan kurang pahit dibandingkan espresso standar.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Ristretto</h4>
+                            <p class="text-gray-600 mb-4">Choose Your Single origin</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 20.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Espresso Item 9 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="lungo.jpg" 
+                                 alt="Cortado" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Shot espresso yang diekstraksi dengan jumlah air yang lebih banyak dan waktu yang lebih lama. Menghasilkan rasa yang lebih pahit dan kompleks, dengan mengeluarkan lebih banyak karakter dari biji kopi.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Lungo</h4>
+                            <p class="text-gray-600 mb-4">Choose Your Single origin</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 24.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Manual Brew Menu Content -->
+            <div id="manual-content" class="menu-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <!-- Manual Brew Item 1 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="v60.jpg" 
+                                 alt="V60" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Menghadirkan cita rasa rempah dan earthy yang khas dari dataran tinggi Gayo, Aceh.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">V60</h4>
+                            <p class="text-gray-600 mb-4">Single origin Gayo Arabica</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 35.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Manual Brew Item 2 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="aeropress.jpg" 
+                                 alt="Aeropress" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Kopi dari dataran tinggi Dieng dengan karakter citrus yang cerah dan bersih.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Aeropress</h4>
+                            <p class="text-gray-600 mb-4">Single origin Wonosobo Kartika</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 35.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Manual Brew Item 3 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="frenchpress.jpg" 
+                                 alt="Siphon" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Biji kopi Bali yang diproses natural, menghasilkan rasa buah-buahan tropis yang kaya dan body yang penuh.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">French Press</h4>
+                            <p class="text-gray-600 mb-4">Single origin Kintamani Natural</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 35.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Manual Brew Item 4 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="chemex.jpg" 
+                                 alt="Japanese Iced" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Seduhan lembut dengan aroma floral dan rasa sedikit asam yang elegan dari Toraja.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Chemex</h4>
+                            <p class="text-gray-600 mb-4">Single origin Toraja Sapan</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 35.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Signature Menu Content -->
+            <div id="signature-content" class="menu-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Signature Item 1 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="goldenhoneylatte.jpg" 
+                                 alt="Gayo Honeycomb" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Nikmati kelembutan latte klasik yang ditingkatkan dengan manis alami dan aroma khas madu pilihan. Setiap tegukan menghadirkan keseimbangan rasa kopi yang kuat dengan sentuhan manis yang lembut dan sedikit floral dari madu.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Golden Honey Latte</h4>
+                            <p class="text-gray-600 mb-4">Latte klasik dengan madu khas Nusantara.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 40.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Signature Item 2 -->
+                    <div class="menu-item bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="richmocha.jpg" 
+                                 alt="Toraja Spice" class="w-full h-full object-cover">
+                            <div class="menu-overlay absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                                <p class="text-white text-center">Mocha dengan sentuhan ekstra cokelat untuk pengalaman yang lebih mewah dan memanjakan. Espresso yang kuat berpadu dengan cokelat yang kaya rasa, menciptakan minuman yang hangat dan memuaskan bagi para pecinta cokelat dan kopi.</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold title-font text-amber-900 mb-2">Rich Mocha</h4>
+                            <p class="text-gray-600 mb-4">Espresso yang kuat berpadu dengan cokelat yang kaya rasa.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-900">Rp 45.000</span>
+                                <button class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-sm font-medium transition">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-amber-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold title-font text-amber-900 mb-4">Apa Kata Mereka</h2>
+                <div class="w-24 h-1 bg-amber-700 mx-auto mb-6"></div>
+                <p class="text-lg max-w-3xl mx-auto text-gray-700">
+                    Testimoni dari pelanggan yang telah menikmati pengalaman di Ruah Kopi
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white rounded-lg p-8 relative">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-amber-100 w-12 h-12 rounded-full flex items-center justify-center">
+                        <i class="fas fa-quote-left text-amber-900"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">
+                        "Kopi di Ruah Kopi benar-benar spesial. Saya suka bagaimana barista menjelaskan asal biji kopi dan metode penyeduhannya. Pengalaman yang edukatif dan menyenangkan!"
+                    </p>
+                    <div class="flex items-center">
+                        <img src="sahraputri.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-amber-900">Sahra Putri Ernanda</h4>
+                            <p class="text-sm text-gray-600">Mahasiswa MERCU BUANA YOGYAKARTA</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white rounded-lg p-8 relative">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-amber-100 w-12 h-12 rounded-full flex items-center justify-center">
+                        <i class="fas fa-quote-left text-amber-900"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">
+                        "Ruah Kopi benar-benar tempat yang nyaman untuk menikmati kopi berkualitas. Saya sangat suka dengan pilihan manual brew mereka, terutama V60 Gayo. Baristanya ramah dan berpengetahuan luas, selalu siap memberikan rekomendasi. Suasana di sini juga sangat mendukung untuk bersantai atau bahkan bekerja."
+                    </p>
+                    <div class="flex items-center">
+                        <img src="niki.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-amber-900">Ni-ki</h4>
+                            <p class="text-sm text-gray-600">ENHYPEN Members</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white rounded-lg p-8 relative">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-amber-100 w-12 h-12 rounded-full flex items-center justify-center">
+                        <i class="fas fa-quote-left text-amber-900"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">
+                        "Saya sering mampir ke Ruah Kopi untuk mencoba signature coffee mereka, dan Golden Honey Latte adalah favorit saya! Rasanya unik dan bikin nagih. Selain itu, tempatnya bersih dan pelayanannya cepat. Ruah Kopi sudah jadi go-to coffee shop saya di Yogyakarta."
+                    </p>
+                    <div class="flex items-center">
+                        <img src="jay.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-amber-900">Jay</h4>
+                            <p class="text-sm text-gray-600">ENHYPEN Members</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-amber-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold title-font mb-4">Hubungi Kami</h2>
+                <div class="w-24 h-1 bg-amber-200 mx-auto mb-6"></div>
+                <p class="text-lg max-w-3xl mx-auto">
+                    Kunjungi Ruah Kopi atau hubungi kami untuk reservasi dan informasi lebih lanjut
+                </p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2">
+                    <h3 class="text-2xl font-bold title-font mb-6">Lokasi Kami</h3>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-start mb-4">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-map-marker-alt text-amber-200"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium">Jl. Malioboro No.129A, Sosromenduran, Gedong Tengen</p>
+                                <p>Kota Yogyakarta, Daerah Istimewa Yogyakarta 55271</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start mb-4">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-phone-alt text-amber-200"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p>+123 456789</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-envelope text-amber-200"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p>ruahkopi@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold title-font mb-6">Jam Operasional</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between max-w-xs">
+                            <span>Senin - Jumat</span>
+                            <span>08:00 - 23:00</span>
+                        </div>
+                        <div class="flex justify-between max-w-xs">
+                            <span>Sabtu - Minggu</span>
+                            <span>07:00 - 03:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h3 class="text-2xl font-bold title-font mb-6">Ikuti Kami</h3>
+                        <div class="flex space-x-4">
+                            <a href="https://www.instagram.com/ruahkopi?igsh=MXdvMHhqd21rdnB2dA==" class="bg-amber-800 hover:bg-amber-700 w-10 h-10 rounded-full flex items-center justify-center transition">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/share/15F5WnU3em/?mibextid=wwXIfr" class="bg-amber-800 hover:bg-amber-700 w-10 h-10 rounded-full flex items-center justify-center transition">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://x.com/ruahkopi89002?s=21" class="bg-amber-800 hover:bg-amber-700 w-10 h-10 rounded-full flex items-center justify-center transition">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@ruahkopi_?_t=ZS-8wMAuzPK6ds&_r=1" class="bg-amber-800 hover:bg-amber-700 w-10 h-10 rounded-full flex items-center justify-center transition">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <h3 class="text-2xl font-bold title-font mb-6">Form Reservasi</h3>
+                    <form class="space-y-6">
+                        <div>
+                            <label for="name" class="block mb-2">Nama Lengkap</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 rounded-lg bg-amber-800 border border-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-200 text-white placeholder-amber-400">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block mb-2">Email</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 rounded-lg bg-amber-800 border border-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-200 text-white placeholder-amber-400">
+                        </div>
+                        
+                        <div>
+                            <label for="phone" class="block mb-2">Nomor Telepon</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-3 rounded-lg bg-amber-800 border border-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-200 text-white placeholder-amber-400">
+                        </div>
+                        
+                        <div>
+                            <label for="date" class="block mb-2">Tanggal Reservasi</label>
+                            <input type="date" id="date" class="w-full px-4 py-3 rounded-lg bg-amber-800 border border-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-200 text-white placeholder-amber-400">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block mb-2">Pesan Tambahan</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-amber-800 border border-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-200 text-white placeholder-amber-400"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-amber-200 hover:bg-white text-amber-900 font-bold py-3 px-6 rounded-lg transition duration-300">
+                            Kirim Reservasi
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <div class="h-96 w-full">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.9771361929947!2d110.3657851!3d-7.792245199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a59626d39bcbb%3A0xbabbe17c0b59b68a!2sMalio%20Gelato!5e0!3m2!1sid!2sid!4v1747250494911!5m2!1sid!2sid" 
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-amber-950 text-amber-100 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold title-font mb-4 text-amber-200">RUAH KOPI</h3>
+                    <p class="mb-4">
+                        Lebih Dari Sekedar Kopi
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/ruahkopi?igsh=MXdvMHhqd21rdnB2dA==" class="text-amber-300 hover:text-white transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/share/15F5WnU3em/?mibextid=wwXIfr" class="text-amber-300 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://x.com/ruahkopi89002?s=21" class="text-amber-300 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-amber-200">Menu</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#menu" class="hover:text-white transition">Espresso Based</a></li>
+                        <li><a href="#menu" class="hover:text-white transition">Manual Brew</a></li>
+                        <li><a href="#menu" class="hover:text-white transition">Signature Drinks</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-amber-200">Tautan</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="hover:text-white transition">Tentang Kami</a></li>
+                        <li><a href="#menu" class="hover:text-white transition">Menu</a></li>
+                        <li><a href="#contact" class="hover:text-white transition">Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-amber-200">Newsletter</h3>
+                    <p class="mb-4">
+                        Dapatkan info terbaru tentang promo dan acara kami
+                    </p>
+                    <form class="flex">
+                        <input type="email" placeholder="Email Anda" class="px-4 py-2 w-full rounded-l-lg bg-amber-900 text-white focus:outline-none">
+                        <button type="submit" class="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-r-lg transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-amber-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2025 Ruah Kopi. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="https://id.wikipedia.org/wiki/Kebijakan_privasi" class="hover:text-white transition">Kebijakan Privasi</a>
+                    <a href="https://legalinfo.id/izin-usaha-untuk-coffee-shop/" class="hover:text-white transition">Syarat & Ketentuan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-amber-900 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-amber-800 transition duration-300 opacity-0 invisible">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Menu tabs functionality
+        const tabs = document.querySelectorAll('.menu-tab');
+        const contents = document.querySelectorAll('.menu-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
